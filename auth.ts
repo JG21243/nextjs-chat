@@ -1,21 +1,10 @@
 import NextAuth from 'next-auth'
-import Providers from 'next-auth/providers'
+// Import each provider directly
+import GitHubProvider from 'next-auth/providers/github'
+import GoogleProvider from 'next-auth/providers/google'
 
-// Then use Providers.GitHub and Providers.Google when setting up your providers
-
-declare module 'next-auth' {
-  interface Session {
-    user: {
-      /** The user's id. */
-      id: string
-    }
-  }
-}
-
-export const {
-  handlers: { GET, POST },
-  auth
-} = NextAuth({
+export default NextAuth({
+  // Define providers
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_ID,
@@ -28,24 +17,21 @@ export const {
     // Add more providers as needed
   ],
   callbacks: {
-    jwt({ token, profile }) {
-      if (profile) {
-        token.id = profile.id
-        token.image = profile.avatar_url || profile.picture
+    async jwt({ token, account }) {
+      if (account) {
+        token.id = account.id;
+        token.image = account.avatar_url || account.picture;
       }
-      return token
+      return token;
     },
-    session: ({ session, token }) => {
+    async session({ session, token }) {
       if (session?.user && token?.id) {
-        session.user.id = String(token.id)
+        session.user.id = String(token.id);
       }
-      return session
+      return session;
     },
-    authorized({ auth }) {
-      return !!auth?.user // this ensures there is a logged in user for -every- request
-    }
   },
   pages: {
-    signIn: '/sign-in' // overrides the next-auth default signin page
+    signIn: '/sign-in' // Custom sign-in page
   }
-})
+});
