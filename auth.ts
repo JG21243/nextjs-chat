@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth'
-// Import each provider directly
+// Import each provider directly below
 import GitHubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 
