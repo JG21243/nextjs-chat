@@ -1,5 +1,7 @@
 import NextAuth from 'next-auth'
-import { GitHubProvider, GoogleProvider } from 'next-auth/providers'
+import Providers from 'next-auth/providers'
+
+// Then use Providers.GitHub and Providers.Google when setting up your providers
 
 declare module 'next-auth' {
   interface Session {
