@@ -1,12 +1,12 @@
-import NextAuth, { type DefaultSession } from 'next-auth'
-import GitHub from 'next-auth/providers/github'
+import NextAuth from 'next-auth'
+import Providers from 'next-auth/providers'
 
 declare module 'next-auth' {
   interface Session {
     user: {
       /** The user's id. */
       id: string
-    } & DefaultSession['user']
+    }
   }
 }
 
@@ -14,7 +14,17 @@ export const {
   handlers: { GET, POST },
   auth
 } = NextAuth({
-  providers: [GitHub],
+  providers: [
+    Providers.GitHub({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
+    Providers.Google({
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
+    }),
+    // Add more providers as needed
+  ],
   callbacks: {
     jwt({ token, profile }) {
       if (profile) {
@@ -34,6 +44,6 @@ export const {
     }
   },
   pages: {
-    signIn: '/sign-in' // overrides the next-auth default signin page https://authjs.dev/guides/basics/pages
+    signIn: '/sign-in' // overrides the next-auth default signin page
   }
 })
