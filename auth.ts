@@ -3,6 +3,9 @@ import NextAuth from 'next-auth'
 import GitHubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 
+import { GitHubProvider } from 'next-auth/providers'
+import { GoogleProvider } from 'next-auth/providers'
+
 export default NextAuth({
   // Define providers
   providers: [
