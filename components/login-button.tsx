@@ -16,10 +16,10 @@ import {
 } from '@/components/ui/icons';
 
 // Dynamically import the UserMenu and other components that use client-side hooks
-const UserMenu = dynamic(() => import('@/components/user-menu'), { ssr: false });
-const SidebarMobile = dynamic(() => import('./sidebar-mobile'), { ssr: false });
-const SidebarToggle = dynamic(() => import('./sidebar-toggle'), { ssr: false });
-const ChatHistory = dynamic(() => import('./chat-history'), { ssr: false });
+const UserMenu = dynamic(() => import('@/components/user-menu').then((mod) => mod.UserMenu), { ssr: false });
+const SidebarMobile = dynamic(() => import('./sidebar-mobile').then((mod) => mod.SidebarMobile), { ssr: false });
+const SidebarToggle = dynamic(() => import('@/components/sidebar-toggle').then((mod) => mod.SidebarToggle), { ssr: false });
+const ChatHistory = dynamic(() => import('@/components/chat-history').then((mod) => mod.ChatHistory), { ssr: false });
 
 // Define UserOrLogin as a regular component, not dynamically imported
 function UserOrLogin() {
