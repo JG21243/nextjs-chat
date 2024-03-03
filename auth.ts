@@ -35,3 +35,4 @@ export default NextAuth({
     signIn: '/sign-in' // Custom sign-in page
   }
 });
+
