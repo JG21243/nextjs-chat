@@ -1,129 +1,62 @@
-'use server'
+import { requireAuth } from '@clerk/nextjs/api';
+import { kv } from '@vercel/kv';
+import { type Chat } from '@/lib/types';
 
-import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
-import { kv } from '@vercel/kv'
+export const runtime = 'edge';
 
-import { auth } from '@/auth'
-import { type Chat } from '@/lib/types'
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
-export async function getChats(userId?: string | null) {
+export const POST = requireAuth(async ({ auth, request }) => {
+  const json = await request.json();
+  const { messages, previewToken } = json;
+  const userId = auth.userId;
+
   if (!userId) {
-    return []
+    return new Response('Unauthorized', {
+      status: 401,
+    });
   }
 
-  try {
-    const pipeline = kv.pipeline()
-    const chats: string[] = await kv.zrange(`user:chat:${userId}`, 0, -1, {
-      rev: true
-    })
-
-    for (const chat of chats) {
-      pipeline.hgetall(chat)
-    }
-
-    const results = await pipeline.exec()
-
-    return results as Chat[]
-  } catch (error) {
-    return []
-  }
-}
-
-export async function getChat(id: string, userId: string) {
-  const chat = await kv.hgetall<Chat>(`chat:${id}`)
-
-  if (!chat || (userId && chat.userId !== userId)) {
-    return null
+  if (previewToken) {
+    openai.apiKey = previewToken;
   }
 
-  return chat
-}
+  const res = await openai.chat.completions.create({
+    model: 'gpt-3.5-turbo',
+    messages,
+    temperature: 0.7,
+    stream: true,
+  });
 
-export async function removeChat({ id, path }: { id: string; path: string }) {
-  const session = await auth()
+  const stream = OpenAIStream(res, {
+    async onCompletion(completion) {
+      const title = json.messages[0].content.substring(0, 100);
+      const id = json.id ?? nanoid();
+      const createdAt = Date.now();
+      const path = `/chat/${id}`;
+      const payload = {
+        id,
+        title,
+        userId,
+        createdAt,
+        path,
+        messages: [
+          ...messages,
+          {
+            content: completion,
+            role: 'assistant',
+          },
+        ],
+      };
+      await kv.hmset(`chat:${id}`, payload);
+      await kv.zadd(`user:chat:${userId}`, {
+        score: createdAt,
+        member: `chat:${id}`,
+      });
+    },
+  });
 
-  if (!session) {
-    return {
-      error: 'Unauthorized'
-    }
-  }
-
-  //Convert uid to string for consistent comparison with session.user.id
-  const uid = String(await kv.hget(`chat:${id}`, 'userId'))
-
-  if (uid !== session?.user?.id) {
-    return {
-      error: 'Unauthorized'
-    }
-  }
-
-  await kv.del(`chat:${id}`)
-  await kv.zrem(`user:chat:${session.user.id}`, `chat:${id}`)
-
-  revalidatePath('/')
-  return revalidatePath(path)
-}
-
-export async function clearChats() {
-  const session = await auth()
-
-  if (!session?.user?.id) {
-    return {
-      error: 'Unauthorized'
-    }
-  }
-
-  const chats: string[] = await kv.zrange(`user:chat:${session.user.id}`, 0, -1)
-  if (!chats.length) {
-    return redirect('/')
-  }
-  const pipeline = kv.pipeline()
-
-  for (const chat of chats) {
-    pipeline.del(chat)
-    pipeline.zrem(`user:chat:${session.user.id}`, chat)
-  }
-
-  await pipeline.exec()
-
-  revalidatePath('/')
-  return redirect('/')
-}
-
-export async function getSharedChat(id: string) {
-  const chat = await kv.hgetall<Chat>(`chat:${id}`)
-
-  if (!chat || !chat.sharePath) {
-    return null
-  }
-
-  return chat
-}
-
-export async function shareChat(id: string) {
-  const session = await auth()
-
-  if (!session?.user?.id) {
-    return {
-      error: 'Unauthorized'
-    }
-  }
-
-  const chat = await kv.hgetall<Chat>(`chat:${id}`)
-
-  if (!chat || chat.userId !== session.user.id) {
-    return {
-      error: 'Something went wrong'
-    }
-  }
-
-  const payload = {
-    ...chat,
-    sharePath: `/share/${chat.id}`
-  }
-
-  await kv.hmset(`chat:${chat.id}`, payload)
-
-  return payload
-}
+  return new StreamingTextResponse(stream);
+});

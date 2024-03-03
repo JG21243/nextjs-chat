@@ -1,7 +1,6 @@
 import { type Metadata } from 'next'
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 
-import { auth } from '@/auth'
 import { getChat } from '@/app/actions'
 import { Chat } from '@/components/chat'
 
@@ -11,37 +10,25 @@ export interface ChatPageProps {
   }
 }
 
-export async function generateMetadata({
-  params
-}: ChatPageProps): Promise<Metadata> {
-  const session = await auth()
+import { GetServerSidePropsContext } from 'next'
 
-  if (!session?.user) {
-    return {}
-  }
-
-  const chat = await getChat(params.id, session.user.id)
-  return {
-    title: chat?.title.toString().slice(0, 50) ?? 'Chat'
-  }
-}
-
-export default async function ChatPage({ params }: ChatPageProps) {
-  const session = await auth()
-
-  if (!session?.user) {
-    redirect(`/sign-in?next=/chat/${params.id}`)
-  }
-
-  const chat = await getChat(params.id, session.user.id)
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const chat = await getChat(Array.isArray(context.params?.id) ? context.params?.id[0] : context.params?.id ?? '', context.req ?? {})
 
   if (!chat) {
-    notFound()
+    return {
+      notFound: true,
+    }
   }
 
-  if (chat?.userId !== session?.user?.id) {
-    notFound()
+  return {
+    props: {
+      chat,
+    },
   }
+}
 
+export default function ChatPage({ chat }) {
   return <Chat id={chat.id} initialMessages={chat.messages} />
 }
+

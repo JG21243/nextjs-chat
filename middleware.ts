@@ -1,5 +1,9 @@
-export { auth as middleware } from './auth'
+import { authMiddleware } from "@clerk/nextjs";
+
+export default authMiddleware({
+  // Optional: Configure beforeAuth, afterAuth, publicRoutes, etc.
+});
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
-}
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+};

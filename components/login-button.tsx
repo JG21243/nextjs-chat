@@ -1,42 +1,70 @@
-'use client'
+// Add the "use client" directive at the top of your component file
+"use client";
 
-import * as React from 'react'
-import { signIn } from 'next-auth/react'
+import * as React from 'react';
+import Link from 'next/link';
+import { useUser } from '@clerk/clerk-react';
+import dynamic from 'next/dynamic';
 
-import { cn } from '@/lib/utils'
-import { Button, type ButtonProps } from '@/components/ui/button'
-import { IconGitHub, IconSpinner } from '@/components/ui/icons'
+import { cn } from '@/lib/utils';
+import { Button, buttonVariants } from '@/components/ui/button';
+import {
+  IconGitHub,
+  IconNextChat,
+  IconSeparator,
+  IconVercel
+} from '@/components/ui/icons';
 
-interface LoginButtonProps extends ButtonProps {
-  showGithubIcon?: boolean
-  text?: string
+// Dynamically import the UserMenu and other components that use client-side hooks
+const UserMenu = dynamic(() => import('@/components/user-menu'), { ssr: false });
+const SidebarMobile = dynamic(() => import('./sidebar-mobile'), { ssr: false });
+const SidebarToggle = dynamic(() => import('./sidebar-toggle'), { ssr: false });
+const ChatHistory = dynamic(() => import('./chat-history'), { ssr: false });
+
+// Define UserOrLogin as a regular component, not dynamically imported
+function UserOrLogin() {
+  const { user } = useUser();
+
+  return (
+    <>
+      {user ? (
+        <>
+          <SidebarMobile>
+            <ChatHistory userId={user.id} />
+          </SidebarMobile>
+          <SidebarToggle />
+        </>
+      ) : (
+        <Link href="/" target="_blank" rel="nofollow">
+          <IconNextChat className="size-6 mr-2 dark:hidden" inverted />
+          <IconNextChat className="hidden size-6 mr-2 dark:block" />
+        </Link>
+      )}
+      <div className="flex items-center">
+        <IconSeparator className="size-6 text-muted-foreground/50" />
+        {user ? (
+          <UserMenu user={user} />
+        ) : (
+          <Button variant="link" asChild className="-ml-2">
+            <Link href="/sign-in?callbackUrl=/">Login</Link>
+          </Button>
+        )}
+      </div>
+    </>
+  );
 }
 
-export function LoginButton({
-  text = 'Login with GitHub',
-  showGithubIcon = true,
-  className,
-  ...props
-}: LoginButtonProps) {
-  const [isLoading, setIsLoading] = React.useState(false)
+export function Header() {
   return (
-    <Button
-      variant="outline"
-      onClick={() => {
-        setIsLoading(true)
-        // next-auth signIn() function doesn't work yet at Edge Runtime due to usage of BroadcastChannel
-        signIn('github', { callbackUrl: `/` })
-      }}
-      disabled={isLoading}
-      className={cn(className)}
-      {...props}
-    >
-      {isLoading ? (
-        <IconSpinner className="mr-2 animate-spin" />
-      ) : showGithubIcon ? (
-        <IconGitHub className="mr-2" />
-      ) : null}
-      {text}
-    </Button>
-  )
+    <header className="sticky top-0 z-50 flex items-center justify-between w-full h-16 px-4 border-b shrink-0 bg-gradient-to-b from-background/10 via-background/50 to-background/80 backdrop-blur-xl">
+      <div className="flex items-center">
+        <React.Suspense fallback={<div className="flex-1 overflow-auto" />}>
+          <UserOrLogin />
+        </React.Suspense>
+      </div>
+      <div className="flex items-center justify-end space-x-2">
+        {/* Links and other content */}
+      </div>
+    </header>
+  );
 }

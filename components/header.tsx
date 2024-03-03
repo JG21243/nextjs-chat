@@ -1,28 +1,36 @@
-import * as React from 'react'
-import Link from 'next/link'
+// Add the "use client" directive at the top of your component file
+"use client";
 
-import { cn } from '@/lib/utils'
-import { auth } from '@/auth'
-import { Button, buttonVariants } from '@/components/ui/button'
+import * as React from 'react';
+import Link from 'next/link';
+import { useUser } from '@clerk/clerk-react';
+import dynamic from 'next/dynamic';
+
+import { cn } from '@/lib/utils';
+import { Button, buttonVariants } from '@/components/ui/button';
 import {
   IconGitHub,
   IconNextChat,
   IconSeparator,
   IconVercel
-} from '@/components/ui/icons'
-import { UserMenu } from '@/components/user-menu'
-import { SidebarMobile } from './sidebar-mobile'
-import { SidebarToggle } from './sidebar-toggle'
-import { ChatHistory } from './chat-history'
+} from '@/components/ui/icons';
 
-async function UserOrLogin() {
-  const session = await auth()
+// Dynamically import the UserMenu and other components that use client-side hooks
+const UserMenu = dynamic(() => import('@/components/user-menu'), { ssr: false });
+const SidebarMobile = dynamic(() => import('./sidebar-mobile'), { ssr: false });
+const SidebarToggle = dynamic(() => import('./sidebar-toggle'), { ssr: false });
+const ChatHistory = dynamic(() => import('./chat-history'), { ssr: false });
+
+// Define UserOrLogin as a regular component, not dynamically imported
+function UserOrLogin() {
+  const { user } = useUser();
+
   return (
     <>
-      {session?.user ? (
+      {user ? (
         <>
           <SidebarMobile>
-            <ChatHistory userId={session.user.id} />
+            <ChatHistory userId={user.id} />
           </SidebarMobile>
           <SidebarToggle />
         </>
@@ -34,8 +42,8 @@ async function UserOrLogin() {
       )}
       <div className="flex items-center">
         <IconSeparator className="size-6 text-muted-foreground/50" />
-        {session?.user ? (
-          <UserMenu user={session.user} />
+        {user ? (
+          <UserMenu user={user} />
         ) : (
           <Button variant="link" asChild className="-ml-2">
             <Link href="/sign-in?callbackUrl=/">Login</Link>
@@ -43,7 +51,7 @@ async function UserOrLogin() {
         )}
       </div>
     </>
-  )
+  );
 }
 
 export function Header() {
@@ -55,25 +63,8 @@ export function Header() {
         </React.Suspense>
       </div>
       <div className="flex items-center justify-end space-x-2">
-        <a
-          target="_blank"
-          href="https://github.com/JG21243/nextjs-chat"
-          rel="noopener noreferrer"
-          className={cn(buttonVariants({ variant: 'outline' }))}
-        >
-          <IconGitHub />
-          <span className="hidden ml-2 md:flex">GitHub</span>
-        </a>
-        <a
-          href="https://github.com/JG21243/nextjs-chat"
-          target="_blank"
-          className={cn(buttonVariants())}
-        >
-          <IconVercel className="mr-2" />
-          <span className="hidden sm:block">Deploy to Vercel</span>
-          <span className="sm:hidden">Deploy</span>
-        </a>
+        {/* Links and other content */}
       </div>
     </header>
-  )
+  );
 }

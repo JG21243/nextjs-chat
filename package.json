@@ -12,6 +12,9 @@
     "format:check": "prettier --check \"{app,lib,components}**/*.{ts,tsx,mdx}\" --cache"
   },
   "dependencies": {
+    "@clerk/clerk-react": "^4.30.7",
+    "@clerk/clerk-sdk-node": "^4.13.11",
+    "@clerk/nextjs": "^4.29.9",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
@@ -24,6 +27,7 @@
     "@vercel/analytics": "^1.1.2",
     "@vercel/kv": "^1.0.1",
     "@vercel/og": "^0.6.2",
+    "@vitejs/plugin-react": "^4.2.1",
     "ai": "^2.2.31",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
