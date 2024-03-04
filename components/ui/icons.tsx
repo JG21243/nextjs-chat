@@ -137,7 +137,7 @@ function IconGitHub({ className, ...props }: React.ComponentProps<'svg'>) {
   )
 }
 
-export function IconGoogle() {
+export function IconGoogle({ className, ...props }: React.ComponentProps<'svg'>) {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path fillRule="evenodd" clipRule="evenodd" d="M15.9998 8.1775C15.9998 7.49417 15.9498 6.9835 15.8658 6.4545H8.18182V9.5905H12.6368C12.5458 10.4545 12.0908 11.5905 11.1818 12.3638V14.5452H13.7278C15.3182 12.7272 15.9998 10.2728 15.9998 8.1775Z" fill="#4285F4"/>
