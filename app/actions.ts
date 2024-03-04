@@ -26,7 +26,7 @@ export const POST = requireAuth(async ({ auth, request }) => {
   const res = await openai.chat.completions.create({
     model: 'gpt-3.5-turbo',
     messages,
-    temperature: 0.7,
+    temperature: 0.0,
     stream: true,
   });
 
