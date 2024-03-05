@@ -22,17 +22,16 @@ export const {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
-      async authorize(credentials: any, req: any) {
-        const { tokens } = await this.getAccessToken(credentials, req);
-        const idToken = tokens.id_token;
+      async authorize(credentials: any, req: any): Promise<any> {
+        const idToken = credentials.id_token;
         const profile = jwt.decode(idToken);
         if (profile) {
-          return Promise.resolve({ profile, tokens });
+          return Promise.resolve({ profile, tokens: credentials });
         } else {
           return Promise.resolve(null);
         }
       },
-    }),
+    }),,
   ],
   callbacks: {
     jwt({ token, profile }) {
