@@ -14,7 +14,13 @@ const openai = new OpenAI({
 export async function POST(req: Request) {
   const json = await req.json()
   const { messages, previewToken } = json
-  const userId = (await auth())?.user.id
+  const authResult = await auth() // Store the result of auth() in authResult
+
+  console.log('authResult:', authResult) // Log the output of auth()
+
+  const userId = authResult?.user.id
+  console.log('userId:', userId) // Log the userId
+  
 
   if (!userId) {
     return new Response('Unauthorized', {
