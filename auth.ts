@@ -27,6 +27,7 @@ export const {
     jwt({ token, profile }) {
       console.log('Profile:', profile); // Log the profile
       if (profile) {
+        console.log('Profile ID:', profile.id); // Log the profile id
         token.id = profile.id
         token.image = profile.avatar_url || profile.picture
       }
@@ -50,5 +51,4 @@ export const {
     signIn: '/sign-in' // overrides the next-auth default signin page https://authjs.dev/guides/basics/pages
   }
 })
-
 
