@@ -1,6 +1,7 @@
-import NextAuth, { type DefaultSession } from 'next-auth'
+import NextAuth, { DefaultSession } from 'next-auth'
 import GitHub from 'next-auth/providers/github'
 import Google from 'next-auth/providers/google' // Import the Google provider
+import jwt from 'jsonwebtoken';
 
 declare module 'next-auth' {
   interface Session {
@@ -21,6 +22,16 @@ export const {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
+      async authorize(credentials: any, req: any) {
+        const { tokens } = await this.getAccessToken(credentials, req);
+        const idToken = tokens.id_token;
+        const profile = jwt.decode(idToken);
+        if (profile) {
+          return Promise.resolve({ profile, tokens });
+        } else {
+          return Promise.resolve(null);
+        }
+      },
     }),
   ],
   callbacks: {
@@ -29,7 +40,7 @@ export const {
       if (profile) {
         console.log('Profile ID:', profile.id); // Log the profile id
         token.id = profile.id
-        token.image = profile.avatar_url || profile.picture
+        token.image = profile.picture
       }
       console.log('Token after jwt callback:', token); // Log the token after adding id and image
       return token
@@ -51,4 +62,3 @@ export const {
     signIn: '/sign-in' // overrides the next-auth default signin page https://authjs.dev/guides/basics/pages
   }
 })
-
