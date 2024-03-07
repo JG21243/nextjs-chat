@@ -25,11 +25,15 @@ export const {
   ],
   callbacks: {
     jwt({ token, profile }) {
-      console.log('Profile:', profile); // Log the profile
+      // Handle the case where the profile may be undefined for token refresh
       if (profile) {
         console.log('Profile ID:', profile.id); // Log the profile id
         token.id = profile.id
         token.image = profile.avatar_url || profile.picture
+      }
+      // Ensure the sub claim is always included in the token
+      if (!token.id && token.sub) {
+        token.id = token.sub;
       }
       console.log('Token after jwt callback:', token); // Log the token after adding id and image
       return token
@@ -37,8 +41,9 @@ export const {
     session: ({ session, token }) => {
       console.log('Session before callback:', session); // Log the session before the callback
       console.log('Token before callback:', token); // Log the token before the callback
-      if (session?.user && token?.id) {
-        session.user.id = String(token.id)
+      // Assign the user ID from the token to the session
+      if (token?.id) {
+        session.user.id = token.id;
       }
       console.log('Session after callback:', session); // Log the session after the callback
       return session
@@ -51,4 +56,5 @@ export const {
     signIn: '/sign-in' // overrides the next-auth default signin page https://authjs.dev/guides/basics/pages
   }
 })
+
 
