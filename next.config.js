@@ -1,13 +1,7 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'avatars.githubusercontent.com',
-        port: '',
-        pathname: '**'
-      }
-    ]
-  }
-}
+    domains: ['avatars.githubusercontent.com', 'lh3.googleusercontent.com'],
+  },
+};
+
