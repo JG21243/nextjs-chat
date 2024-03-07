@@ -38,7 +38,7 @@ export function LoginButton({
         provider === 'github' ? (
           <IconGitHub className="mr-2" />
         ) : (
-          <IconGoogle className="mr-4" />
+          <IconGoogle className="mr-2" />
         )
       ) : null}
       {text}
