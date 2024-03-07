@@ -42,7 +42,7 @@ export const {
       console.log('Session before callback:', session); // Log the session before the callback
       console.log('Token before callback:', token); // Log the token before the callback
       // Assign the user ID from the token to the session
-      if (token?.id) {
+      if (token?.id && typeof token.id === 'string') {
         session.user.id = token.id;
       }
       console.log('Session after callback:', session); // Log the session after the callback
