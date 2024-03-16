@@ -14,10 +14,3 @@ export default async function ChatLayout({ children }: ChatLayoutProps) {
     </div>
   )
 }
-
-
-      {/* Chat Component */}
-      {children}
-    </>
-  )
-}
