@@ -10,6 +10,7 @@ function IconNextChat({ className, ...props }: React.ComponentProps<'svg'>) {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 256 256"
       className={cn('size-4', className)}
+      inverted = false, // Add a default value of false
       {...props}
     >
       <rect width="256" height="256" fill="none" />
