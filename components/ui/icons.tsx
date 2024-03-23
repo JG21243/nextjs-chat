@@ -3,7 +3,11 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 
-function IconNextChat({ className, ...props }: React.ComponentProps<'svg'>) {
+function IconNextChat({
+  className,
+  inverted = false, // Add a default value of false
+  ...props
+}: React.ComponentProps<'svg'> & { inverted?: boolean }) { // Add the inverted prop type
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +19,7 @@ function IconNextChat({ className, ...props }: React.ComponentProps<'svg'>) {
       <path
         d="M224,71.85v112.3a7.91,7.91,0,0,1-12.18,6.59l-88.19-56.15a7.8,7.8,0,0,1,0-13.18l88.19-56.15A7.91,7.91,0,0,1,224,71.85Z"
         fill="none"
-        stroke="currentColor"
+        stroke={inverted ? 'white' : 'currentColor'} // Conditionally set stroke color based on inverted prop
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="16"
@@ -23,16 +27,14 @@ function IconNextChat({ className, ...props }: React.ComponentProps<'svg'>) {
       <path
         d="M120,71.85v112.3a7.91,7.91,0,0,1-12.18,6.59L19.63,134.59a7.8,7.8,0,0,1,0-13.18l88.19-56.15A7.91,7.91,0,0,1,120,71.85Z"
         fill="none"
-        stroke="currentColor"
+        stroke={inverted ? 'white' : 'currentColor'} // Conditionally set stroke color based on inverted prop
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="16"
       />
     </svg>
-  );
+  )
 }
-
-export default IconNextChat;
 
 function IconOpenAI({ className, ...props }: React.ComponentProps<'svg'>) {
   return (
