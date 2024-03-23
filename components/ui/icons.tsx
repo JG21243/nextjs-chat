@@ -3,9 +3,6 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 
-import * as React from 'react';
-import { cn } from '@/lib/utils';
-
 function IconNextChat({ className, ...props }: React.ComponentProps<'svg'>) {
   return (
     <svg
