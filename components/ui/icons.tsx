@@ -19,7 +19,7 @@ function IconNextChat({
       <path
         d="M224,71.85v112.3a7.91,7.91,0,0,1-12.18,6.59l-88.19-56.15a7.8,7.8,0,0,1,0-13.18l88.19-56.15A7.91,7.91,0,0,1,224,71.85Z"
         fill="none"
-        stroke={inverted ? 'black' : 'black'} // Set default color to black
+        stroke={inverted ? 'black' : 'white'} // Set default color to black
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="16"
