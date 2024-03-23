@@ -4,13 +4,15 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 
+import * as React from 'react';
+import { cn } from '@/lib/utils';
+
 function IconNextChat({ className, ...props }: React.ComponentProps<'svg'>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 256 256"
       className={cn('size-4', className)}
-      inverted = false, // Add a default value of false
       {...props}
     >
       <rect width="256" height="256" fill="none" />
@@ -31,9 +33,10 @@ function IconNextChat({ className, ...props }: React.ComponentProps<'svg'>) {
         strokeWidth="16"
       />
     </svg>
-  )
+  );
 }
 
+export default IconNextChat;
 
 function IconOpenAI({ className, ...props }: React.ComponentProps<'svg'>) {
   return (
