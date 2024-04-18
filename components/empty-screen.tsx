@@ -10,12 +10,12 @@ const exampleMessages = [
     message: `What is a "serverless function"?`
   },
   {
-    heading: 'Summarize an article',
-    message: 'Summarize the following article for a 2nd grader: \n'
+    heading: 'Summarize an legal brief',
+    message: 'Summarize the following  legal brief: \n'
   },
   {
     heading: 'Draft an email',
-    message: `Draft an email to my boss about the following: \n`
+    message: `Draft an email to external counsel about the following: \n`
   }
 ]
 
