@@ -77,4 +77,4 @@ const LegalPromptLibrary: React.FC = () => {
   )
 }
 
-export default LegalPromptLibrary
+export default legalPromptLibrary
