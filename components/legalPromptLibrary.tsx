@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react'
 import { Book, FileText, Scale, Gavel, Briefcase, Users, Globe, Buildings, ShieldCheck } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
