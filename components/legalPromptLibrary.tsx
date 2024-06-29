@@ -32,7 +32,7 @@ const LegalPromptLibrary: React.FC = () => {
     { title: 'Compliance Checker', description: 'Evaluate business practices or documents for compliance with specific laws and regulations', icon: <Scales className="text-primary" size={24} />, category: 'Corporate' },
     { title: 'Legal Procedure Guide', description: 'Provide step-by-step guidance on legal procedures for different types of cases', icon: <Gavel className="text-primary" size={24} />, category: 'Litigation' },
     { title: 'Legal Document Drafter', description: 'Create drafts of common legal documents based on user inputs and requirements', icon: <FileText className="text-primary" size={24} />, category: 'Corporate' },
-    { title: 'Legal Ethics Advisor', description: 'Offer guidance on ethical considerations in various legal scenarios', icon: <Scale className="text-primary" size={24} />, category: 'Ethics' },
+    { title: 'Legal Ethics Advisor', description: 'Offer guidance on ethical considerations in various legal scenarios', icon: <Scales className="text-primary" size={24} />, category: 'Ethics' },
     { title: 'Legal Terminology Explainer', description: 'Simplify and explain complex legal terms and concepts for clients', icon: <Book className="text-primary" size={24} />, category: 'Client Communication' },
     { title: 'Due Diligence Assistant', description: 'Help lawyers conduct thorough due diligence by providing checklists and analysis frameworks', icon: <Briefcase className="text-primary" size={24} />, category: 'Corporate' },
     { title: 'Merger & Acquisition Advisor', description: 'Guide through legal aspects of M&A processes, including regulatory considerations', icon: <Buildings className="text-primary" size={24} />, category: 'Corporate' },
