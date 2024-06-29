@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Link from 'next/link'
-
 import { cn } from '@/lib/utils'
 import { auth } from '@/auth'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -54,7 +53,10 @@ export function Header() {
           <UserOrLogin />
         </React.Suspense>
       </div>
-      <div className="flex items-center justify-end space-x-2">
+      <div className="flex items-center justify-end space-x-4">
+        <Link href="/legal-prompt-library" className="text-sm font-medium hover:underline">
+          Legal Prompt Library
+        </Link>
         <a
           target="_blank"
           href="https://github.com/JG21243/nextjs-chat"
@@ -73,23 +75,6 @@ export function Header() {
           <span className="hidden sm:block">Deploy to Vercel</span>
           <span className="sm:hidden">Deploy</span>
         </a>
-      </div>
-    </header>
-  )
-}
-import Link from 'next/link'
-
-export function Header() {
-  return (
-    <header className="sticky top-0 z-50 flex items-center justify-between w-full h-16 px-4 border-b shrink-0 bg-gradient-to-b from-background/10 via-background/50 to-background/80 backdrop-blur-xl">
-      <div className="flex items-center">
-        {/* ... existing code ... */}
-      </div>
-      <div className="flex items-center justify-end space-x-4">
-        {/* ... existing links ... */}
-        <Link href="/legal-prompt-library" className="text-sm font-medium hover:underline">
-          Legal Prompt Library
-        </Link>
       </div>
     </header>
   )
