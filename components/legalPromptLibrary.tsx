@@ -29,7 +29,7 @@ const LegalPromptLibrary: React.FC = () => {
     { title: 'Contract Analyzer', description: 'Analyze legal contracts to identify key clauses, potential risks, and suggest improvements', icon: <FileText className="text-primary" size={24} />, category: 'Corporate' },
     { title: 'Case Law Researcher', description: 'Find relevant case law and legal precedents based on specific legal issues or scenarios', icon: <Book className="text-primary" size={24} />, category: 'Litigation' },
     { title: 'Legal Brief Writer', description: 'Generate outlines for legal briefs based on case details and legal arguments', icon: <FileText className="text-primary" size={24} />, category: 'Litigation' },
-    { title: 'Compliance Checker', description: 'Evaluate business practices or documents for compliance with specific laws and regulations', icon: <Scale className="text-primary" size={24} />, category: 'Corporate' },
+    { title: 'Compliance Checker', description: 'Evaluate business practices or documents for compliance with specific laws and regulations', icon: <Scales className="text-primary" size={24} />, category: 'Corporate' },
     { title: 'Legal Procedure Guide', description: 'Provide step-by-step guidance on legal procedures for different types of cases', icon: <Gavel className="text-primary" size={24} />, category: 'Litigation' },
     { title: 'Legal Document Drafter', description: 'Create drafts of common legal documents based on user inputs and requirements', icon: <FileText className="text-primary" size={24} />, category: 'Corporate' },
     { title: 'Legal Ethics Advisor', description: 'Offer guidance on ethical considerations in various legal scenarios', icon: <Scale className="text-primary" size={24} />, category: 'Ethics' },
