@@ -3,7 +3,6 @@
 import React, { useState } from 'react'
 import { Book, FileText, Scale, Gavel, Briefcase, Users, Globe, Buildings, ShieldCheck } from '@phosphor-icons/react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 interface PromptCardProps {
   title: string
@@ -12,15 +11,15 @@ interface PromptCardProps {
 }
 
 const PromptCard: React.FC<PromptCardProps> = ({ title, description, icon }) => (
-  <Card className="bg-card">
-    <CardHeader className="flex flex-row items-center space-x-4">
+  <div className="bg-card rounded-lg shadow-md overflow-hidden">
+    <div className="flex flex-row items-center space-x-4 p-4">
       <div className="bg-primary/20 p-2 rounded-full">{icon}</div>
-      <CardTitle>{title}</CardTitle>
-    </CardHeader>
-    <CardContent>
+      <h3 className="font-semibold text-lg">{title}</h3>
+    </div>
+    <div className="px-4 pb-4">
       <p className="text-sm text-muted-foreground">{description}</p>
-    </CardContent>
-  </Card>
+    </div>
+  </div>
 )
 
 const LegalPromptLibrary: React.FC = () => {
