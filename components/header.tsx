@@ -13,6 +13,7 @@ import { UserMenu } from '@/components/user-menu'
 import { SidebarMobile } from './sidebar-mobile'
 import { SidebarToggle } from './sidebar-toggle'
 import { ChatHistory } from './chat-history'
+import { Book } from '@phosphor-icons/react'
 
 async function UserOrLogin() {
   const session = await auth()
@@ -54,8 +55,12 @@ export function Header() {
         </React.Suspense>
       </div>
       <div className="flex items-center justify-end space-x-4">
-        <Link href="/legal-prompt-library" className="text-sm font-medium hover:underline">
-          Legal Prompt Library
+        <Link 
+          href="/legal-prompt-library" 
+          className={cn(buttonVariants({ variant: 'outline' }), "flex items-center")}
+        >
+          <Book className="mr-2" />
+          <span className="hidden sm:inline">Legal Prompt Library</span>
         </Link>
         <a
           target="_blank"
