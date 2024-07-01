@@ -9,7 +9,7 @@ export default function LandingPage() {
     <div className="flex flex-col min-h-screen">
       <header className="px-4 lg:px-6 h-14 flex items-center">
         <Link className="flex items-center justify-center" href="#">
-          <MessageCircle className="h-6 w-6 mr-2" />
+          <MessageCircle className="size-6 mr-2" />
           <span className="font-bold">AI Chatbot</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
@@ -40,7 +40,7 @@ export default function LandingPage() {
                 <Link href="/chat">
                   <Button>
                     Get Started
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ml-2 size-4" />
                   </Button>
                 </Link>
                 <Link href="/about">
@@ -54,21 +54,21 @@ export default function LandingPage() {
           <div className="container px-4 md:px-6">
             <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
               <div className="flex flex-col items-center space-y-3 text-center">
-                <Zap className="h-10 w-10" />
+                <Zap className="size-10" />
                 <h2 className="text-xl font-bold">Lightning Fast</h2>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
                   Powered by Next.js and Vercel for optimal performance and speed.
                 </p>
               </div>
               <div className="flex flex-col items-center space-y-3 text-center">
-                <MessageCircle className="h-10 w-10" />
+                <MessageCircle className="size-10" />
                 <h2 className="text-xl font-bold">Intelligent Conversations</h2>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Leveraging OpenAI's GPT models for natural and context-aware interactions.
+                  Leveraging OpenAI&apos;s GPT models for natural and context-aware interactions.
                 </p>
               </div>
               <div className="flex flex-col items-center space-y-3 text-center">
-                <Shield className="h-10 w-10" />
+                <Shield className="size-10" />
                 <h2 className="text-xl font-bold">Secure & Scalable</h2>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
                   Built with NextAuth.js and Vercel KV for robust authentication and data storage.
